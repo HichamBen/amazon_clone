@@ -8,7 +8,8 @@
     "start": "node ./backend/server.js",
     "build": "cd frontend && npm run build",
     "install-dep": "cd frontend && npm install",
-    "heroku-postbuild": "npm run install-dep & npm run build"
+    "heroku-postbuild": "npm run install-dep & npm run build",
+    "frontend": "cd frontend && npm start"
   },
   "author": "",
   "license": "ISC",
