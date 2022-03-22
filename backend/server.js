@@ -30,7 +30,7 @@ app.use((err, req, res, next)=> {
 });
 
 if(process.env.PRO === "production") {
-    app.use(express.static("frontend/build"));
+    app.use(express.static("./frontend/build/"));
 }
 
 const port = process.env.PORT || 5000;

@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./backend/server.js",
-    "build": "cd frontend && npm run build",
-    "install-dep": "cd frontend && npm install",
+    "build": "cd ./frontend && npm run build",
+    "install-dep": "cd ./frontend && npm install",
     "heroku-postbuild": "npm run install-dep && npm run build",
-    "frontend": "cd frontend && npm start"
+    "frontend": "cd ./frontend && npm start"
   },
   "author": "",
   "license": "ISC",
