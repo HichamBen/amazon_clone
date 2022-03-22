@@ -29,7 +29,7 @@ app.use((err, req, res, next)=> {
     res.status(500).send({message: err.message});
 });
 
-if(process.env.PRO = "production") {
+if(process.env.PRO === "production") {
     app.use(express.static("frontend/build"));
 }
 
