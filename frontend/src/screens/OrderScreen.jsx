@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import PayPalBtn from "../components/PayPalBtn";
 import { detailsOrder } from "../reduxSlice/OrderDetailsSlice";
 import { ORDER_PAY_RESET, payOrder } from "../reduxSlice/OrderPaySlice";
 
 export default function OrderScreen() {
     const orderId = useParams().id;
     const [sdkReady, setSdkReady] = useState(false);
+    const [clientId, setclientId] = useState();
     const orderDetails = useSelector(state => state.orderDetails);
     const { order, loading, error } = orderDetails;
 
@@ -21,14 +22,8 @@ export default function OrderScreen() {
     useEffect(() => {
         const addPayPalScript = async () => {
             const { data } = await axios.get("/api/config/paypal");
-            const script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
-            script.async = true;
-            script.onload = () => {
-                setSdkReady(true);
-            }
-            document.body.appendChild(script);
+            setclientId(data);
+            setSdkReady(true);
         }
         if (!order || successPay || (order && order._id !== orderId)) {
             dispatch(ORDER_PAY_RESET())
@@ -135,11 +130,13 @@ export default function OrderScreen() {
                                                 (<>
                                                     {errorPay && <MessageBox variant="danger">{errorPay}</MessageBox>}
                                                     {loadingPay && <LoadingBox></LoadingBox>}
-                                                    <PayPalButton
+                                                    <PayPalBtn
+                                                        clientId={clientId}
                                                         amount={order.totalPrice}
                                                         onSuccess={successPaymentHandler}
-                                                    ></PayPalButton>
-                                                </>)
+                                                    ></PayPalBtn>
+                                                </>
+                                                )
                                             }
                                         </li>
                                     )
